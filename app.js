@@ -24,16 +24,16 @@ const userRouter = require("./routes/user.js");
 
 
 //connecting data base(mongob)
-const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
+const dbUrl = process.env.ATLASDB_URL;
 
 main().then(() => {
-    console.log("connected to db")
+    console.log("connected to db");
 }).catch((err) => {
-    console.log(err)
+    console.log(err);
 });
 
 async function main() {
-    await mongoose.connect(MONGO_URL)
+    await mongoose.connect(dbUrl);
 };
 
 
@@ -46,7 +46,7 @@ app.use(express.static(path.join(__dirname, "/public")));
 
 
 let sessionOptions = {
-    secret: "mysupersecretcode",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: {
